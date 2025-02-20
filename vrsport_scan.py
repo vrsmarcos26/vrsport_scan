@@ -26,13 +26,18 @@ def scanudp(host,port,status="null",service="Not Identific",protocol="UDP"):
         client.settimeout(1)
 
         client.sendto(b"", (host,int(port)))
-        code = client.recvfrom(1024)  
-        status = "open" 
-        print(f"{port}          {status}              {service}                              {protocol}")     
-    
-    except socket.timeout:
-        status = "closed"
+         
+        try:
+            client.recvfrom(1024)
+            status = "open" 
+        except socket.timeout:
+            status = "closed"
+        
         print(f"{port}          {status}              {service}                              {protocol}")
+    
+    except Exception as error:
+        print(f"Erro encontrado {error}...")
+        
     
     finally:
         client.close()
