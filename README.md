@@ -45,9 +45,9 @@ Isso realizará uma varredura nas portas padrão (20, 21, 22, 23, 25, 53, 67, 68
 
 ### Exemplo de Saída
 
-PORT-   -STATUS-     -SERVICE-                            -PROTOCOL 
-20       open         FTP Data Transfer                    TCP/IP 
-21       open         FTP Control                          TCP/IP 
+PORT-   -STATUS-     -SERVICE-                            -PROTOCOL\n
+20       open         FTP Data Transfer                    TCP/IP\n 
+21       open         FTP Control                          TCP/IP\n 
 22       closed       SSH (Secure Shell)                   TCP/IP 
 80       open         HTTP (HyperText Transfer Protocol)   TCP/IP 
 443      open         HTTPS (HTTP Secure)                  TCP/IP
