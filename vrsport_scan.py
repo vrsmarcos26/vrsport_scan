@@ -1,44 +1,45 @@
 import socket
 import sys
 
-def scantcp(host,port, service="null", status = "null", protocol="TCP/IP"):
+def scantcp(host, port, service="null", status="null", protocol="TCP/IP"):
     try:
-        client = socket.socket(socket.AF_INET, socket.SOCK_STREAM) #TCP/IP
-        client.settimeout(0.5) #Tempo de 0.5 s
+        client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  # TCP/IP
+        client.settimeout(0.5)  # Tempo de 0.5 s
 
-        code = client.connect_ex((host, int(port))) #Teste de conexão
+        code = client.connect_ex((host, int(port)))  # Teste de conexão
 
         if code == 0:
             status = "open"
         else:
             status = "close"
 
-        print(f"{port}          {status}            {service}           {protocol}")
+        # Ajuste na formatação para alinhar as colunas
+        print(f"{port:<12} {status:<12} {service:<70} {protocol}")
     except Exception as error:
         print(f"Erro {error} encontrado...")
 
     finally:
         client.close()
 
-def scanudp(host,port,status="null",service="Not Identific",protocol="UDP"):
+def scanudp(host, port, status="null", service="Not Identified", protocol="UDP"):
     try:
         client = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         client.settimeout(1)
 
-        client.sendto(b"", (host,int(port)))
-         
+        client.sendto(b"", (host, int(port)))
+
         try:
             client.recvfrom(1024)
-            status = "open" 
+            status = "open"
         except socket.timeout:
             status = "closed"
-        
-        print(f"{port}          {status}              {service}                              {protocol}")
-    
+
+        # Ajuste na formatação para alinhar as colunas
+        print(f"{port:<12} {status:<12} {service:<70} {protocol}")
+
     except Exception as error:
         print(f"Erro encontrado {error}...")
-        
-    
+
     finally:
         client.close()
 
@@ -55,9 +56,8 @@ def obter_servico_por_porta(porta):
         80: "HTTP (HyperText Transfer Protocol)",
         443: "HTTPS (HTTP Secure)"
     }
-    
-    return switch.get(porta, "Not Identified")
 
+    return switch.get(porta, "Not Identified")
 
 def parse_ports(port_arg):
     ports = []
@@ -70,7 +70,7 @@ def parse_ports(port_arg):
     return ports
 
 if __name__ == "__main__":
-    if len(sys.argv)>= 2 and sys.argv[1].upper() == "-H":
+    if len(sys.argv) >= 2 and sys.argv[1].upper() == "-H":
         print("""
 =============================================================
 * Utilização:                                               *
@@ -91,26 +91,26 @@ if __name__ == "__main__":
 =============================================================
 """)
 
-    elif len(sys.argv)>= 2:
+    elif len(sys.argv) >= 2:
         host_arg = sys.argv[1]
         print(f"DOMAIN/IP: {host_arg}\n")
-        print("PORT-       -STATUS-            -SERVICE-                                   -PROTOCOL")
+        # Ajuste no cabeçalho para alinhar as colunas
+        print(f"{'PORT-':<12} {'-STATUS-':<12} {'-SERVICE-':<70} {'-PROTOCOL'}")
 
-        if len(sys.argv)>= 3 and sys.argv[2].upper() == "-UDP" :
+        if len(sys.argv) >= 3 and sys.argv[2].upper() == "-UDP":
             ports = [20, 21, 22, 23, 25, 53, 67, 68, 80, 443]
 
             for port in ports:
-                scanudp(host_arg,port, status="null")
-        
+                scanudp(host_arg, port, status="null")
+
         elif len(sys.argv) >= 4 and sys.argv[3].upper() == "-UDP":
             port_arg = sys.argv[2]
             ports = parse_ports(port_arg)
 
             for port in ports:
-                scanudp(host_arg,port, status="null")
+                scanudp(host_arg, port, status="null")
 
-
-        elif len(sys.argv)>= 3:
+        elif len(sys.argv) >= 3:
             port_arg = sys.argv[2]
             ports = parse_ports(port_arg)
 
@@ -121,7 +121,7 @@ if __name__ == "__main__":
 
             for port in ports:
                 scantcp(host_arg, port, service=obter_servico_por_porta(port), status="null")
-    
+
     else:
         print("""
 ***************************************************************
