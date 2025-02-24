@@ -69,6 +69,13 @@ def parse_ports(port_arg):
         ports = [int(port) for port in port_arg.split(",")]
     return ports
 
+def obter_ip_por_dominio(dom):
+    try:
+        ip = socket.gethostbyname(dom)
+        return ip
+    except socket.gaierror:
+        return "IP não encontrado"
+
 if __name__ == "__main__":
     if len(sys.argv) >= 2 and sys.argv[1].upper() == "-H":
         print("""
@@ -93,7 +100,8 @@ if __name__ == "__main__":
 
     elif len(sys.argv) >= 2:
         host_arg = sys.argv[1]
-        print(f"DOMAIN/IP: {host_arg}\n")
+        ip_correspondente = obter_ip_por_dominio(host_arg)
+        print(f"DOMAIN/IP: {host_arg} ({ip_correspondente})\n")
         # Ajuste no cabeçalho para alinhar as colunas
         print(f"{'PORT-':<12} {'-STATUS-':<12} {'-SERVICE-':<70} {'-PROTOCOL'}")
 
