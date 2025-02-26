@@ -13,7 +13,7 @@ Este é um simples scanner de portas desenvolvido em Python para testar a conect
 ## Como Usar
 
 ### Requisitos
-- Python 3.x instalado.
+- Python 3.12.7 instalado.
 
 ### Sintaxe
 ```python vrsport.py <domínio/IP> <porta(s)> [opções]```
